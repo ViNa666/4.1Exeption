@@ -1,6 +1,7 @@
 package ru.netology.repository;
 
 import ru.netology.domain.Product;
+import ru.netology.exception.AlreadyExistsException;
 import ru.netology.exception.NotFoundException;
 
 public class ProductRepository {
@@ -14,13 +15,17 @@ public class ProductRepository {
     }
 
     public void save(Product item) {
-        int length = items.length + 1;
-        Product[] tmp = new Product[length];
-        System.arraycopy(items, 0, tmp, 0, items.length);
-        int lastIndex = tmp.length - 1;
-        tmp[lastIndex] = item;
+        if (findById(item.getId()) == null) {
+            int length = items.length + 1;
+            Product[] tmp = new Product[length];
+            System.arraycopy(items, 0, tmp, 0, items.length);
+            int lastIndex = tmp.length - 1;
+            tmp[lastIndex] = item;
 
-        items = tmp;
+            items = tmp;
+        } else {
+            throw new AlreadyExistsException("Такой товар уже добавлен!");
+        }
 
     }
 

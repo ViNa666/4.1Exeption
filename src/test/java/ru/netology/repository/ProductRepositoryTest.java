@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Test;
 import ru.netology.domain.Book;
 import ru.netology.domain.Product;
 import ru.netology.domain.Smartphone;
+import ru.netology.exception.AlreadyExistsException;
 import ru.netology.exception.NotFoundException;
 
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
@@ -45,6 +46,15 @@ class ProductRepositoryTest {
 
 
     }
+    @Test
+    public void shouldSaveExistingItem() {
+
+        repository.save(book1);
+
+
+        assertThrows(AlreadyExistsException.class, () -> repository.save(book1));
+    }
+
 
     @Test
     public void shouldFindAllIfExistsOneProduct() {
